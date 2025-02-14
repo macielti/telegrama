@@ -1,3 +1,6 @@
+![Last Commit](https://img.shields.io/github/last-commit/macielti/telegrama.svg)
+![Compatible with GraalVM](https://img.shields.io/badge/compatible_with-GraalVM-green)
+
 # Telegrama
 
 A simple SDK to interact with the Telegram Bot API. It is based on the [Morse](https://github.com/Otann/morse).
