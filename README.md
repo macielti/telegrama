@@ -1,5 +1,7 @@
 ![Last Commit](https://img.shields.io/github/last-commit/macielti/telegrama.svg)
 ![Compatible with GraalVM](https://img.shields.io/badge/compatible_with-GraalVM-green)
+[![Clojars Project](https://img.shields.io/clojars/v/net.clojars.macielti/telegrama.svg)](https://clojars.org/net.clojars.macielti/telegrama)
+
 
 # Telegrama
 
