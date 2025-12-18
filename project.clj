@@ -7,7 +7,8 @@
             :url  "https://www.eclipse.org/legal/epl-2.0/"}
 
   :dependencies [[org.clojure/clojure "1.12.0"]
-                 [net.clojars.macielti/http-client-component "1.2.1"]]
+                 [net.clojars.macielti/http-client-component "1.2.1"]
+                 [jarohen/chime "0.3.3"]]
 
   :profiles {:dev {:test-paths   ^:replace ["test/unit" "test/integration" "test/helpers"]
 
