@@ -1,6 +1,6 @@
 (ns telegrama.component.wire.in.update
-  (:require [schema.core :as s]
-            [common-clj.schema.core :as common-schema]))
+  (:require [common-clj.schema.core :as common-schema]
+            [schema.core :as s]))
 
 (def from
   {:id s/Int})
