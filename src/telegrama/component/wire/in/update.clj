@@ -19,8 +19,8 @@
 (s/defschema Message
   (common-schema/loose-schema message))
 
-(def update
+(def event
   {:message   Message
    :update_id s/Int})
 (s/defschema Update
-  (common-schema/loose-schema update))
+  (common-schema/loose-schema event))
