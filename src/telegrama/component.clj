@@ -20,12 +20,12 @@
         (->> (map adapters.update/wire->model)))))
 
 (defn ^:private consume-updates!
-  [offset settings http-client config as-of]
+  [offset _settings http-client config _as-of]
   (let [updates (get-updates! offset http-client config)
         {latest-update-id :id} (-> updates last)]
     (when latest-update-id
       (reset! offset (inc latest-update-id))
-      (doseq [update updates]))))
+      (doseq [_update updates]))))
 
 (defmethod ig/init-key ::consumer
   [_ {:keys [settings components]}]
@@ -36,5 +36,5 @@
                          (partial consume-updates! offset settings (:http-client components) (:config components)))))
 
 (defmethod ig/halt-key! ::consumer
-  [_ consumer]
+  [_ _consumer]
   (log/info :stopping ::consumer))
