@@ -4,7 +4,7 @@
             [telegrama.component.models.update :as models.update]
             [telegrama.component.wire.in.update :as wire.in.update]))
 
-(s/defn wire->identity :- models.update/Identity
+(s/defn wire->identification :- models.update/Identification
   [{{:keys [from]} :message} :- wire.in.update/Update]
   {:id (:id from)})
 
@@ -19,16 +19,16 @@
 (s/defmethod wire->model :bot-command :- models.update/BotCommand
   [{{:keys [text]} :message
     update-id      :update_id :as update} :- wire.in.update/Update]
-  {:id       update-id
-   :type     :bot-command
-   :raw      update
-   :text     text
-   :identity (wire->identity update)
-   :command  (-> text (str/split #" ") first (str/replace #"/" ""))})
+  {:id             update-id
+   :type           :bot-command
+   :raw            update
+   :text           text
+   :identification (wire->identification update)
+   :command        (-> text (str/split #" ") first (str/replace #"/" ""))})
 
 (s/defmethod wire->model :other :- models.update/Other
   [{update-id :update_id :as update} :- wire.in.update/Update]
-  {:id       update-id
-   :type     :other
-   :raw      update
-   :identity (wire->identity update)})
+  {:id             update-id
+   :type           :other
+   :raw            update
+   :identification (wire->identification update)})

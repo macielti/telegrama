@@ -4,15 +4,15 @@
 (def types #{:bot-command})
 (def UpdateType (apply s/enum types))
 
-(def identity
+(def identification
   {:id s/Int})
-(s/defschema Identity
-  identity)
+(s/defschema Identification
+  identification)
 
 (def base
-  {:id       s/Int
-   :identity Identity
-   :raw      s/Str})
+  {:id             s/Int
+   :identification Identification
+   :raw            s/Str})
 
 (def bot-command
   {:type    (s/eq :bot-command)
