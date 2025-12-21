@@ -11,15 +11,23 @@
 
 (def base
   {:id       s/Int
-   :identity Identity})
+   :identity Identity
+   :raw      s/Str})
 
 (def bot-command
   {:type    (s/eq :bot-command)
-   :raw     s/Str
+   :text    s/Str
    :command s/Keyword})
 (s/defschema BotCommand
   (merge base
          bot-command))
 
+(def other
+  {:type (s/eq :other)})
+(s/defschema Other
+  (merge base
+         other))
+
 (s/defschema Update
-  (s/conditional #(= (:type %) :bot-command) BotCommand))
+  (s/conditional #(= (:type %) :bot-command) BotCommand
+                 :else Other))
