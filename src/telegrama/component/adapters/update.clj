@@ -24,7 +24,7 @@
    :raw            update
    :text           text
    :identification (wire->identification update)
-   :command        (-> text (str/split #" ") first (str/replace #"/" ""))})
+   :command        (-> text (str/split #" ") first (str/replace #"/" "") keyword)})
 
 (s/defmethod wire->model :other :- models.update/Other
   [{update-id :update_id :as update} :- wire.in.update/Update]

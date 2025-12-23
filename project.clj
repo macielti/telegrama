@@ -9,6 +9,7 @@
   :dependencies [[org.clojure/clojure "1.12.0"]
                  [net.clojars.macielti/common-clj "43.74.74"]
                  [net.clojars.macielti/http-client-component "1.2.1"]
+                 [io.pedestal/pedestal.interceptor "0.6.5"]
                  [jarohen/chime "0.3.3"]]
 
   :profiles {:dev {:test-paths   ^:replace ["test/unit" "test/integration" "test/helpers"]
