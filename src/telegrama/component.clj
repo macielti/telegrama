@@ -51,9 +51,11 @@
               :let [{:keys [handler interceptors]} (settings-by-update update settings)
                     context {:components components
                              :update     update}
-                    interceptors' (-> (concat [] interceptors [(handler->interceptor handler)])
-                                      flatten)]]
-        (interceptor.chain/execute context interceptors')))))
+                    interceptors' (delay (-> (concat [] interceptors [(handler->interceptor handler)])
+                                             flatten))]]
+        (if handler
+          (interceptor.chain/execute context @interceptors')
+          (log/warn :update-type-not-supported :update update))))))
 
 (defmethod ig/init-key ::consumer
   [_ {:keys [settings components]}]
