@@ -43,19 +43,17 @@
    settings :- models.settings/Settings
    {:keys [http-client config] :as components}
    _as-of]
-  (let [updates (get-updates! offset http-client config)
-        {latest-update-id :id} (-> updates last)]
-    (when latest-update-id
-      (reset! offset (inc latest-update-id))
-      (doseq [update updates
-              :let [{:keys [handler interceptors]} (settings-by-update update settings)
-                    context {:components components
-                             :update     update}
-                    interceptors' (delay (-> (concat [] interceptors [(handler->interceptor handler)])
-                                             flatten))]]
-        (if handler
-          (interceptor.chain/execute context @interceptors')
-          (log/warn :update-type-not-supported :update update))))))
+  (let [updates (get-updates! offset http-client config)]
+    (doseq [update updates
+            :let [{:keys [handler interceptors]} (settings-by-update update settings)
+                  context {:components components
+                           :update     update}
+                  interceptors' (delay (-> (concat [] interceptors [(handler->interceptor handler)])
+                                           flatten))]]
+      (if handler
+        (interceptor.chain/execute context @interceptors')
+        (log/warn :update-type-not-supported :update update))
+      (reset! offset (-> update :id inc)))))
 
 (defmethod ig/init-key ::consumer
   [_ {:keys [settings components]}]
