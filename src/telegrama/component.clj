@@ -35,8 +35,8 @@
 (s/defn handler->interceptor :- Interceptor
   [handler :- IFn]
   (io.pedestal.interceptor/interceptor
-   {:name  :handler-function
-    :enter handler}))
+    {:name  :handler-function
+     :enter handler}))
 
 (s/defn ^:private consume-updates!
   [offset :- s/Int
@@ -68,5 +68,6 @@
                          (partial consume-updates! offset settings components))))
 
 (defmethod ig/halt-key! ::consumer
-  [_ _consumer]
-  (log/info :stopping ::consumer))
+  [_ consumer]
+  (log/info :stopping ::consumer)
+  (.close consumer))
