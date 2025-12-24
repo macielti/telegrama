@@ -15,7 +15,7 @@
 (def message
   {:from     From
    :text     s/Str
-   :entities [Entity]})
+   (s/optional-key :entities) [Entity]})
 (s/defschema Message
   (common-schema/loose-schema message))
 
