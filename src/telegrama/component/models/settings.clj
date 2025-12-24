@@ -4,8 +4,8 @@
            (io.pedestal.interceptor Interceptor)))
 
 (def handler-settings
-  {:handler                       IFn
-   (s/optional-key :interceptors) Interceptor})
+  {:handler      IFn
+   :interceptors [Interceptor]})
 
 (s/defschema HandlerSettings
   handler-settings)

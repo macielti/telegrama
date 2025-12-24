@@ -3,11 +3,13 @@
             [schema.core :as s]))
 
 (def telegram
-  {:token s/Str})
+  {:token                                  s/Str
+   (s/optional-key :poll-interval-seconds) s/Int
+   (s/optional-key :poll-timeout-seconds)  s/Int})
 (s/defschema Telegram
   (common-schema/loose-schema telegram))
 
 (def config
   {:telegram Telegram})
-(def Config
+(s/defschema Config
   (common-schema/loose-schema config))

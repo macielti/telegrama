@@ -12,7 +12,7 @@
 (def base
   {:id             s/Int
    :identification Identification
-   :raw            s/Str})
+   :raw            {s/Keyword s/Any}})
 
 (def bot-command
   {:type    (s/eq :bot-command)

@@ -18,8 +18,8 @@
 (s/defn get-updates! :- [models.update/Update]
   [offset :- s/Int
    http-client
-   {:keys [telegram]} :- models.config/Config]
-  (let [url (str "https://api.telegram.org/bot" (:token telegram) "/getUpdates?offset=" @offset)
+   {{:keys [token poll-timeout-seconds]} :telegram} :- models.config/Config]
+  (let [url (str "https://api.telegram.org/bot" token "/getUpdates?offset=" @offset "&timeout=" (or poll-timeout-seconds 60))
         request {:url         url
                  :method      :get
                  :endpoint-id :telegram-consumer-get-updates}]
@@ -48,11 +48,10 @@
             :let [{:keys [handler interceptors]} (settings-by-update update settings)
                   context {:components components
                            :update     update}
-                  interceptors' (delay (-> (concat [] interceptors [(handler->interceptor handler)])
-                                           flatten))]]
+                  interceptors' (delay (-> (concat interceptors [(handler->interceptor handler)]) flatten))]]
       (if handler
         (interceptor.chain/execute context @interceptors')
-        (log/warn :update-type-not-supported :update update))
+        (log/warn :update-type-not-supported :update (dissoc update :raw)))
       (reset! offset (-> update :id inc)))))
 
 (defmethod ig/init-key ::consumer
@@ -61,10 +60,11 @@
 
   (s/validate models.config/Config (:config components))
   (assert (not (nil? settings)) "You must provide settings for the handlers - Telegram Consumer component")
-  (assert (not (nil? (:http-client components))) "You must provide a HTTP Cliente for the Telegram Consumer component")
+  (assert (not (nil? (:http-client components))) "You must provide a HTTP Client for the Telegram Consumer component")
 
-  (let [offset (atom 0)]
-    (chime.core/chime-at (chime.core/periodic-seq (Instant/now) (Duration/ofSeconds 1))
+  (let [poll-interval-seconds (get-in components [:config :telegram :poll-interval-seconds] 1)
+        offset (atom 0)]
+    (chime.core/chime-at (chime.core/periodic-seq (Instant/now) (Duration/ofSeconds poll-interval-seconds))
                          (partial consume-updates! offset settings components))))
 
 (defmethod ig/halt-key! ::consumer
