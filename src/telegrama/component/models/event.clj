@@ -1,8 +1,8 @@
-(ns telegrama.component.models.update
+(ns telegrama.component.models.event
   (:require [schema.core :as s]))
 
 (def types #{:bot-command})
-(def UpdateType (apply s/enum types))
+(def EventType (apply s/enum types))
 
 (def identification
   {:id s/Int})
@@ -28,6 +28,6 @@
   (merge base
          other))
 
-(s/defschema Update
+(s/defschema Event
   (s/conditional #(= (:type %) :bot-command) BotCommand
                  :else Other))

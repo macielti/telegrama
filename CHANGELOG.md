@@ -7,7 +7,7 @@ of [keepachangelog.com](http://keepachangelog.com/).
 
 ### Added
 
-- Implemented Consumer Component to integrate with Telegram's Bot API and handle Updates (bot commands).
+- Implemented Consumer Component to integrate with Telegram's Bot API and handle Events (bot commands).
 
 ## 0.1.0-2 - 2025-02-14 (beta)
 

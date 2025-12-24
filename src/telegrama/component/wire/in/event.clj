@@ -1,4 +1,4 @@
-(ns telegrama.component.wire.in.update
+(ns telegrama.component.wire.in.event
   (:require [common-clj.schema.core :as common-schema]
             [schema.core :as s]))
 
@@ -22,5 +22,5 @@
 (def event
   {:message   Message
    :update_id s/Int})
-(s/defschema Update
+(s/defschema Event
   (common-schema/loose-schema event))
