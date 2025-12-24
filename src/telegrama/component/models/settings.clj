@@ -11,7 +11,7 @@
   handler-settings)
 
 (def settings
-  {:bot-command HandlerSettings})
+  {:bot-command {s/Keyword HandlerSettings}})
 
 (s/defschema Settings
   settings)

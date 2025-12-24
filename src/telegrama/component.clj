@@ -27,10 +27,11 @@
         :body (json/decode true) :result
         (->> (map adapters.update/wire->model)))))
 
-(s/defn settings-by-update :- models.settings/HandlerSettings
+(s/defn settings-by-update :- (s/maybe models.settings/HandlerSettings)
   [{:keys [type command]} :- models.update/Update
    settings :- models.settings/Settings]
-  (get-in settings [type command]))
+  (case type
+    :bot-command (get-in settings [type command])))
 
 (s/defn handler->interceptor :- Interceptor
   [handler :- IFn]
