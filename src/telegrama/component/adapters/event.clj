@@ -10,7 +10,8 @@
 
 (s/defn wire-event->type :- models.event/EventType
   [event :- wire.in.event/Event]
-  (cond (some-> event :message :entities first :type (= "bot_command")) :bot-command
+  (cond (or (some-> event :message :entities first :type (= "bot_command"))
+            (some-> event :message :caption_entities first :type (= "bot_command"))) :bot-command
         :else :other))
 
 (defmulti wire->model
@@ -24,7 +25,8 @@
    :raw            event
    :text           text
    :identification (wire->identification event)
-   :command        (-> text (str/split #" ") first (str/replace #"/" "") keyword)})
+   :command        (or (some-> text (str/split #" ") first (str/replace #"/" "") keyword)
+                       (some-> event :message :caption (str/split #" ") first (str/replace #"/" "") keyword))})
 
 (s/defmethod wire->model :other :- models.event/Other
   [{update-id :update_id :as event} :- wire.in.event/Event]

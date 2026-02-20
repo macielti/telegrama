@@ -2,7 +2,7 @@
   (:require [cheshire.core :as json]
             [chime.core]
             [clojure.tools.logging :as log]
-            [http-client-component.core :as component.http-client]
+            [http-client-component.with-httpkit-client :as component.http-client]
             [integrant.core :as ig]
             [io.pedestal.interceptor]
             [io.pedestal.interceptor.chain :as interceptor.chain]
@@ -20,7 +20,7 @@
    http-client
    {{:keys [token poll-timeout-seconds]} :telegram} :- models.config/Config]
   (let [url (str "https://api.telegram.org/bot" token "/getUpdates?offset=" @offset "&timeout=" (or poll-timeout-seconds 60))
-        request {:url         url
+        request {:endpoint    url
                  :method      :get
                  :endpoint-id :telegram-consumer-get-updates}]
     (-> @(component.http-client/request! request http-client)
@@ -31,7 +31,8 @@
   [{:keys [type command]} :- models.event/Event
    settings :- models.settings/Settings]
   (case type
-    :bot-command (get-in settings [type command])))
+    :bot-command (get-in settings [type command])
+    :other nil))
 
 (s/defn handler->interceptor :- Interceptor
   [handler :- IFn]
