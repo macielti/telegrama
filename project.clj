@@ -1,4 +1,4 @@
-(defproject net.clojars.macielti/telegrama "1.2.1"
+(defproject net.clojars.macielti/telegrama "1.2.2"
   :description "A simple SDK to interact with the Telegram Bot API. It is based on the Morse. And intended to be compatible with GraalVM native-image."
 
   :url "https://github.com/macielti/telegrama"
@@ -18,7 +18,8 @@
                                   [com.github.clojure-lsp/lein-clojure-lsp "2.0.14"]
                                   [com.github.liquidz/antq "RELEASE"]]
 
-                   :dependencies [[hashp "0.2.2"]]
+                   :dependencies [[nrepl/nrepl "1.6.0"]
+                                  [hashp "0.2.2"]]
 
                    :injections   [(require 'hashp.core)]
 
