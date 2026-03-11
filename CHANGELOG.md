@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. This change log follows the conventions
 of [keepachangelog.com](http://keepachangelog.com/).
 
+## 1.2.2 - 2026-03-10
+
+### Changed
+
+- Updated dependencies: common-clj from 46.1.1 to 46.1.5, nrepl from 1.0.0 to 1.6.0.
+
 ## 1.2.1 - 2026-02-21
 
 ### Changed
